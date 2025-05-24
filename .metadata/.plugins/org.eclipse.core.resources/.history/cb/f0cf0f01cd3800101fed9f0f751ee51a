@@ -1,0 +1,5 @@
+package com.bazzar.entity;
+
+public class User {
+
+}
