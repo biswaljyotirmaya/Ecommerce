@@ -1,6 +1,3 @@
-INDEX VERSION 1.4+E:\WorkSpaces\Bazaar\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-1056752895.index
-688740997.index
-2519125603.index
-2998218549.index
-2823145386.index
+INDEX VERSION 1.4+E:\WorkSpaces\Ecommerce\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3946611079.index
+1794388412.index
