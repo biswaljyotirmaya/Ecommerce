@@ -1,13 +1,15 @@
 package com.ecom.service;
 
-import com.ecom.dto.UserDto;
-import com.ecom.entity.User;
-import com.ecom.repository.IUserRepository;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.ecom.dto.UserDto;
+import com.ecom.entity.User;
+import com.ecom.repository.IUserRepository;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -17,7 +19,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public String registerUser(UserDto userDto) {
-        User user = mapToEntity(userDto);
+        User user = new User();
+        BeanUtils.copyProperties(userDto, user);
         User saved = userRepository.save(user);
         return "User registered successfully with id: "+saved.getId();
     }
@@ -26,60 +29,50 @@ public class UserServiceImpl implements IUserService {
     public UserDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        return mapToDto(user);
+        UserDto dto=new UserDto();
+        BeanUtils.copyProperties(user, dto);
+        return dto;
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map(this::mapToDto).collect(Collectors.toList());
+        List<UserDto> list=new ArrayList<>();
+        for(User user: users){
+        	BeanUtils.copyProperties(users, list);
+        	return list;
+        }
+       
+       return list; 
     }
 
     @Override
     public UserDto updateUser(Long userId, UserDto userDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setRole(userDto.getRole());
-        user.setAddress(userDto.getAddress());
-
+       BeanUtils.copyProperties(userDto, user);
         User updated = userRepository.save(user);
-        return mapToDto(updated);
+        return userDto;
     }
 
     @Override
     public String deleteUser(Long userId) {
-    	return "User deleted successfully with id: "+userId);
+    	return "User deleted successfully with id: "+userId;
     }
+    
 
     @Override
     public List<UserDto> getUsersByRole(String role) {
         List<User> users = userRepository.findByRole(role);
-        return users.stream().map(this::mapToDto).collect(Collectors.toList());
+        List<UserDto> list=new ArrayList<>();
+        for(User user: users) {
+        	BeanUtils.copyProperties(users, list);
+        	return list;
+        }
+        return list;
     }
 
-    private UserDto mapToDto(User user) {
-        UserDto dto = new UserDto();
-        dto.setUserId(user.getUserId());
-        dto.setName(user.getName());
-        dto.setEmail(user.getEmail());
-        dto.setPassword(user.getPassword());
-        dto.setRole(user.getRole());
-        dto.setAddress(user.getAddress());
-        return dto;
-    }
+   
 
-    private User mapToEntity(UserDto dto) {
-        User user = new User();
-        user.setUserId(dto.getUserId());
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-        user.setRole(dto.getRole());
-        user.setAddress(dto.getAddress());
-        return user;
-    }
+  
 }
