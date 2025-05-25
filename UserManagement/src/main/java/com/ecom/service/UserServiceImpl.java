@@ -2,11 +2,14 @@ package com.ecom.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecom.config.AppConfig;
+import com.ecom.cons.UserManagementConstant;
 import com.ecom.dto.UserDto;
 import com.ecom.entity.User;
 import com.ecom.repository.IUserRepository;
@@ -16,19 +19,25 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+    
+    private Map<String,String> message;
 
+    @Autowired
+    public UserServiceImpl(AppConfig config) {
+    	message=config.getMsg();
+    }
     @Override
     public String registerUser(UserDto userDto) {
         User user = new User();
         BeanUtils.copyProperties(userDto, user);
         User saved = userRepository.save(user);
-        return "User registered successfully with id: "+saved.getId();
+        return user.getId()!=null?message.get(UserManagementConstant.SAVE_SUCCESS)+user.getId():message.get(UserManagementConstant.SAVE_FAILURE);
     }
 
     @Override
     public UserDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+                .orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE)+ userId));
         UserDto dto=new UserDto();
         BeanUtils.copyProperties(user, dto);
         return dto;
@@ -49,7 +58,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserDto updateUser(Long userId, UserDto userDto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+                .orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE)+ userId));
        BeanUtils.copyProperties(userDto, user);
         User updated = userRepository.save(user);
         return userDto;
@@ -57,7 +66,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public String deleteUser(Long userId) {
-    	return "User deleted successfully with id: "+userId;
+    	return message.get(UserManagementConstant.DELETE_SUCCESS)+userId;
     }
     
 
