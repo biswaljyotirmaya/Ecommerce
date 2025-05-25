@@ -16,7 +16,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
 message:
   user:
-       save-success: User is Registered with id::
+       save-success: User is Registered with id
        save-failure: User is not registered
        update-success: User is updated successfully
        update-failure: User not found for deletion
