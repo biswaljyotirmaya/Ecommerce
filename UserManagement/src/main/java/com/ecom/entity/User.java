@@ -49,4 +49,5 @@ public class User {
 	@OneToMany(targetEntity = Address.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="address_id",referencedColumnName = "id")
 	private List<Address> address;
+
 }
