@@ -102,7 +102,7 @@ class UserOperationsController {
     
     // List<UserDto> getUsersByRole(String role);
     
-    @GetMapping("/show-ByName/{role}")
+    @GetMapping("/show-ByRole/{role}")
     public ResponseEntity<?> showUserByRole(@PathVariable("name") String role)
     {
     	try {
