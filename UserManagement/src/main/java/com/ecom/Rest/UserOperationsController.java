@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,6 +80,56 @@ class UserOperationsController {
     	}
     	
     }
+    
+    
+    // String deleteUser(Long userId);
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable("id") long id)
+    {
+    	try {
+    		String resMsg = UserService.deleteUser(id);
+    		return new ResponseEntity<String>(id+ "User Deleted Sucessfully",HttpStatus.OK);
+    	}
+    	catch(Exception e)
+    	{
+    		return new ResponseEntity<String>("Problem Occur for Deletion",HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    	
+    	
+    	
+    }
+    
+    // List<UserDto> getUsersByRole(String role);
+    
+    @GetMapping("/show-ByName/{role}")
+    public ResponseEntity<?> showUserByRole(@PathVariable("name") String role)
+    {
+    	try {
+    		
+    		List<UserDto> list = UserService.getUsersByRole(role);
+    		return new ResponseEntity<List<UserDto>>(list,HttpStatus.OK);
+    	
+    	}
+    	catch(Exception e)
+    	{
+    		return new ResponseEntity<String>("Internal Problem ",HttpStatus.INTERNAL_SERVER_ERROR);
+
+    	}
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
