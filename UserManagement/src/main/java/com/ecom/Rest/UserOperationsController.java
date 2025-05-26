@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.dto.UserDto;
+import com.ecom.entity.User;
 import com.ecom.service.IUserService;
 
 
@@ -39,18 +39,24 @@ class UserOperationsController {
 		}
 		
 	}
-//    // List<UserDto> getAllUsers();
-//    
-//    public ResponseEntity<List> fetchAllUser()
-//    {
-//    	
-//    	
-//    	
-//    }
-//    
-//    
-//    
+
     
+    public ResponseEntity<?> fetchAllUser()
+    {
+    	try
+    	{
+    		List<UserDto> list = UserService.getAllUsers();
+    		
+    		return new ResponseEntity<List<UserDto>>(list,HttpStatus.OK);
+    		
+    		
+    	}
+    	catch(Exception e)
+    	{
+    		return new ResponseEntity<String>("Got Internal Error::: Not Getting to fetch Users Details",
+    				HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    }
     
     
     
