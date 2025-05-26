@@ -1,6 +1,9 @@
 package com.ecom.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.CascadeType;
+=======
+>>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,13 +38,23 @@ public class Address {
 	private String state;
 	@Column(length = 30)
 	private String country;
+<<<<<<< HEAD
 	@ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id",referencedColumnName = "id")
+=======
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id") 
+>>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
 	private User user;
+<<<<<<< HEAD
 	@Override
 	public String toString() {
 		return "Address [id=" + id + ", city=" + city + ", state=" + state + ", country=" + country + "]";
 	}
 	
+=======
+
+>>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
 	
 }

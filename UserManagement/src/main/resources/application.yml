@@ -6,13 +6,14 @@ spring:
     name: UserManagement
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///ntspbms618db
+    url: jdbc:mysql:///ecommerce
     username: root
-    password: safari
+    password: jyoti
   jpa:
     hibernate:
       ddl-auto: update
     generate-ddl: true
+<<<<<<< HEAD
     database-platform: org.hibernate.dialect.MySQL8Dialect
 user:
    module:
@@ -23,4 +24,21 @@ user:
             update-failure: User not found for deletion
             delete-success: User deleted successfully
             delete-failure: User not found for deletion
+=======
+    database-platform: org.hibernate.dialect.MySQLDialect
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+message:
+  user:
+       save-success: User is Registered with id
+       save-failure: User is not registered
+       update-success: User is updated successfully
+       update-failure: User not found for deletion
+       delete-success: User deleted successfully
+       delete-failure: User not found for deletion
+>>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
     

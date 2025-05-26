@@ -49,13 +49,17 @@ public class User {
 	@UpdateTimestamp
 	@Column(updatable = true,insertable = false)
 	private LocalDateTime updationTime;
-	@OneToMany(targetEntity = Address.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinColumn(name="address_id",referencedColumnName = "id")
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Address> address;
+<<<<<<< HEAD
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
 				+ ", creationTime=" + creationTime + ", updationTime=" + updationTime + "]";
 	}
 	
+=======
+
+>>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
 }
