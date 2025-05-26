@@ -13,13 +13,14 @@ spring:
     hibernate:
       ddl-auto: update
     generate-ddl: true
-    database-platform: org.hibernate.dialect.MySQLDialect
-message:
-  user:
-       save-success: User is Registered with id
-       save-failure: User is not registered
-       update-success: User is updated successfully
-       update-failure: User not found for deletion
-       delete-success: User deleted successfully
-       delete-failure: User not found for deletion
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+user:
+   module:
+         message:
+            save-success: User is Registered with id
+            save-failure: User is not registered
+            update-success: User is updated successfully
+            update-failure: User not found for deletion
+            delete-success: User deleted successfully
+            delete-failure: User not found for deletion
     

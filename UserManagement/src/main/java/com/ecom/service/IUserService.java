@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    String registerUser(UserDto userDto);
+    public String registerUser(UserDto userDto);
 
     UserDto getUserById(Long userId);
 

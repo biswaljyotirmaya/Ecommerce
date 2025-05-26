@@ -23,8 +23,8 @@ public class UserServiceImpl implements IUserService {
     private Map<String,String> message;
 
     @Autowired
-    public UserServiceImpl(AppConfig config) {
-    	message=config.getMsg();
+    private UserServiceImpl(AppConfig config) {
+    	message=config.getMessage();
     }
     @Override
     public String registerUser(UserDto userDto) {

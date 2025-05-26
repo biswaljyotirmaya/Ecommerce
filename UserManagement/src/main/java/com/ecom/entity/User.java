@@ -19,10 +19,13 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Setter
+@Getter
 @Table(name = "User")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,4 +52,10 @@ public class User {
 	@OneToMany(targetEntity = Address.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="address_id",referencedColumnName = "id")
 	private List<Address> address;
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", creationTime=" + creationTime + ", updationTime=" + updationTime + "]";
+	}
+	
 }
