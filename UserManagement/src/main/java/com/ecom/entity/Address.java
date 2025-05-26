@@ -1,8 +1,5 @@
 package com.ecom.entity;
 
-import org.springframework.cache.annotation.EnableCaching;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -34,7 +31,10 @@ public class Address {
 	private String state;
 	@Column(length = 30)
 	private String country;
-	@OneToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "address")
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id") 
 	private User user;
+
 	
 }
