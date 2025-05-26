@@ -15,7 +15,7 @@ import com.ecom.service.IUserService;
 
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/UserManagemnt-api")
 class UserOperationsController {
 
 	@Autowired
@@ -25,8 +25,8 @@ class UserOperationsController {
     //public String registerUser(UserDto userDto)
     
     @PostMapping("/register")
-	public ResponseEntity<String> registerUser(UserDto userDto)
-	{
+	public ResponseEntity<String> registerUser(UserDto userDto){
+	
 		try {
 			
 			String msg = UserService.registerUser(userDto);
@@ -41,8 +41,8 @@ class UserOperationsController {
 	}
 
     
-    public ResponseEntity<?> fetchAllUser()
-    {
+    public ResponseEntity<?> fetchAllUser(){
+    
     	try
     	{
     		List<UserDto> list = UserService.getAllUsers();
