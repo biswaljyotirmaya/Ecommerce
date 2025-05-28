@@ -39,15 +39,12 @@ class UserOperationsController {
 	}
 
 	@GetMapping("/allUser")
-	public ResponseEntity<?> fetchAllUser() {
+	public ResponseEntity<?> fetchAllUser(){
 
 		try {
 			List<UserDto> list = userService.getAllUsers();
-
 			return new ResponseEntity<List<UserDto>>(list, HttpStatus.OK);
-
 		} catch (Exception e) {
-
 			return new ResponseEntity<String>("Got Internal Error::: Not Getting to fetch Users Details",
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -57,10 +54,8 @@ class UserOperationsController {
 	public ResponseEntity<String> modifyUser(@PathVariable("id") Long id, UserDto uDto) {
 
 		try {
-
 			userService.updateUser(id, uDto);
 			return new ResponseEntity<String>("User Detalils Updated", HttpStatus.OK);
-
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Problem Occur for Updation", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -81,10 +76,8 @@ class UserOperationsController {
 	@GetMapping("/show-ByRole/{role}")
 	public ResponseEntity<?> showUserByRole(@PathVariable("name") String role) {
 		try {
-
 			List<UserDto> list = userService.getUsersByRole(role);
 			return new ResponseEntity<List<UserDto>>(list, HttpStatus.OK);
-
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Problem ", HttpStatus.INTERNAL_SERVER_ERROR);
 

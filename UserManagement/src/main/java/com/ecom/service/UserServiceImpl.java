@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ecom.config.AppConfig;
@@ -27,14 +30,16 @@ public class UserServiceImpl implements IUserService {
     	message=config.getMessage();
     }
     @Override
+    @CachePut(value = "Userdto",key="#userdto.name")
     public String registerUser(UserDto userDto) {
         User user = new User();
         BeanUtils.copyProperties(userDto, user);
         User saved = userRepository.save(user);
-        return user.getId()!=null?message.get(UserManagementConstant.SAVE_SUCCESS)+user.getId():message.get(UserManagementConstant.SAVE_FAILURE);
+        return saved.getId()!=null?message.get(UserManagementConstant.SAVE_SUCCESS)+saved.getId():message.get(UserManagementConstant.SAVE_FAILURE);
     }
 
     @Override
+    @Cacheable(value = "Userdto",key="#userId")
     public UserDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE)+ userId));
@@ -44,6 +49,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Cacheable(value = "Userdtos")
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         List<UserDto> list=new ArrayList<>();
@@ -56,6 +62,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @CachePut(value = "Userdto",key = "#userId")
     public UserDto updateUser(Long userId, UserDto userDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE)+ userId));
@@ -65,7 +72,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String deleteUser(Long userId) {
+    public String deleteUser(Long userId){
+    	
     	return message.get(UserManagementConstant.DELETE_SUCCESS)+userId;
     }
     

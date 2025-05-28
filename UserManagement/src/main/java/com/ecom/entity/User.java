@@ -1,5 +1,6 @@
 package com.ecom.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import lombok.Setter;
 @Table(name = "User")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements Serializable{
 
 	@Id
 	@SequenceGenerator(name = "Gen1",sequenceName ="Seq_User",initialValue = 1,allocationSize = 1)
@@ -52,14 +53,12 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Address> address;
-<<<<<<< HEAD
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
 				+ ", creationTime=" + creationTime + ", updationTime=" + updationTime + "]";
 	}
 	
-=======
 
->>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
 }

@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @ConfigurationProperties(prefix="user.module")
 @EnableConfigurationProperties
-public class AppConfig {
+public class AppConfig{
 	private Map<String, String> message;
 
 }

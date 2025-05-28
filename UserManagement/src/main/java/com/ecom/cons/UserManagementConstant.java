@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Component
 @Data
-public class UserManagementConstant {
+public class UserManagementConstant{
 
 	public static final String SAVE_SUCCESS="save-success";
 	public static final String SAVE_FAILURE="save-failure";

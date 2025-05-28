@@ -1,9 +1,10 @@
 package com.ecom.entity;
 
-<<<<<<< HEAD
+
+import java.io.Serializable;
+
 import jakarta.persistence.CascadeType;
-=======
->>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
+//github.com/biswaljyotirmaya/Ecommerce-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,7 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Address {
+public class Address implements Serializable{
 
 	@Id
 	@SequenceGenerator(name = "Gen2",sequenceName = "Seq_Adddress",initialValue = 1,allocationSize = 1)
@@ -38,23 +38,17 @@ public class Address {
 	private String state;
 	@Column(length = 30)
 	private String country;
-<<<<<<< HEAD
 	@ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id",referencedColumnName = "id")
-=======
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id") 
->>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
+
 	private User user;
-<<<<<<< HEAD
+
 	@Override
-	public String toString() {
+	public String toString(){
 		return "Address [id=" + id + ", city=" + city + ", state=" + state + ", country=" + country + "]";
 	}
 	
-=======
 
->>>>>>> branch 'master' of https://github.com/biswaljyotirmaya/Ecommerce-
+
 	
 }

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,6 @@ class UserManagementApplicationTests {
 
 	@Mock
 	private AppConfig config;
-
 	@Test
 	public void registerUserTest(){
 		
@@ -57,12 +57,39 @@ class UserManagementApplicationTests {
 		user.setAddress(List.of(address));
 		
 		BeanUtils.copyProperties(dto, user);
-
+		
 		Mockito.when(userRepo.save(any(User.class))).thenReturn(user);
 		String msg=service.registerUser(dto);
 		
 		assertEquals("User is registered with id",msg);
 	}
 	
-	public void 
+	@Test
+	public void deleteUserTest(){
+		Address address = new Address();
+		UserDto dto = new UserDto();
+		address.setCity("hyd");
+		address.setCountry("India");
+		address.setId(1L);
+		address.setState("Telangana");
+		
+		dto.setEmail("abc@gmail.com");
+		dto.setName("Omkar");
+		dto.setPassword("safari");
+		dto.setRole("admin");
+		dto.setAddress(List.of(address));
+
+		User user = new User();
+		user.setId(1L);
+		address.setUser(user);
+		user.setAddress(List.of(address));
+		
+		BeanUtils.copyProperties(dto, user);
+		Optional<User> opt=Optional.of(user);
+		Mockito.when(userRepo.findById(1L)).thenReturn(opt);
+		
+		service.deleteUser(1L);
+		Mockito.when(userRepo.deleteById(1L)).thenRetrun("User deleted");
+				
+	}
 }
