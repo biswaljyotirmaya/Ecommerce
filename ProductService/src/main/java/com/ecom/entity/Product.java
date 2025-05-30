@@ -47,7 +47,7 @@ public class Product implements Serializable{
 	@Column(updatable = true,insertable = false)
 	private LocalDateTime updationTime;
 	
-	@ManyToOne(targetEntity = Category.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Category.class,cascade = CascadeType.ALL)
 	@JoinColumn(name="category_id",referencedColumnName = "id")
 	private Category category;
 	
