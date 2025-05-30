@@ -19,13 +19,13 @@ import com.ecom.service.IUserService;
 
 @RestController
 @RequestMapping("/UserManagemnt-api")
-class UserOperationsController {
+public class UserOperationsController {
 
 	@Autowired
 	private IUserService userService;
 
 	@PostMapping("/register")
-	public ResponseEntity<String> registerUser(UserDto userDto) {
+	public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
 		try {
 
 			String msg = userService.registerUser(userDto);

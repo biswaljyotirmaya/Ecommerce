@@ -14,6 +14,12 @@ spring:
       dialect: org.hibernate.dialect.MySQL8Dialect 
       ddl-auto: update
     generate-ddl: true
+  cache-type: Redis
+  data:
+    redis:
+       host: localhost
+       port: 6369
+server.port: 4041         
     
    
 user:

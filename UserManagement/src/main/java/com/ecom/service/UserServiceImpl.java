@@ -26,7 +26,7 @@ public class UserServiceImpl implements IUserService {
     private Map<String,String> message;
 
     @Autowired
-    private UserServiceImpl(AppConfig config) {
+    public UserServiceImpl(AppConfig config) {
     	message=config.getMessage();
     }
     @Override
@@ -72,13 +72,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @CacheEvict(value = "Userdto",key = "#userId")
     public String deleteUser(Long userId){
-    	
-    	return message.get(UserManagementConstant.DELETE_SUCCESS)+userId;
+    	userRepository.deleteById(userId);
+    	return userId!=null?message.get(UserManagementConstant.DELETE_SUCCESS):"User Not found for deletion";
     }
     
 
     @Override
+    @Cacheable(value = "Userdtos")
     public List<UserDto> getUsersByRole(String role) {
         List<User> users = userRepository.findByRole(role);
         List<UserDto> list=new ArrayList<>();

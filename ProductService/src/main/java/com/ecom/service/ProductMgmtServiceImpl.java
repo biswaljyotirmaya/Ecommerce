@@ -30,7 +30,7 @@ public class ProductMgmtServiceImpl implements IProductMgmtService {
 	private Map<String,String> msg;
 	
 	@Autowired
-	private ProductMgmtServiceImpl(AppConfig config) {
+	private ProductMgmtServiceImpl(AppConfig config){
 		msg=config.getMessage();
 	}
 

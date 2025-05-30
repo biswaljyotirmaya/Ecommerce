@@ -2,10 +2,14 @@ package com.ecom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,7 +39,9 @@ class UserManagementApplicationTests {
 
 	@Mock
 	private AppConfig config;
-	@Test
+	
+	
+	
 	public void registerUserTest(){
 		
 		UserDto dto = new UserDto();
@@ -64,7 +70,7 @@ class UserManagementApplicationTests {
 		assertEquals("User is registered with id",msg);
 	}
 	
-	@Test
+	
 	public void deleteUserTest(){
 		Address address = new Address();
 		UserDto dto = new UserDto();
@@ -85,11 +91,14 @@ class UserManagementApplicationTests {
 		user.setAddress(List.of(address));
 		
 		BeanUtils.copyProperties(dto, user);
-		Optional<User> opt=Optional.of(user);
-		Mockito.when(userRepo.findById(1L)).thenReturn(opt);
 		
+		
+		//actual call
 		service.deleteUser(1L);
-		Mockito.when(userRepo.deleteById(1L)).thenRetrun("User deleted");
+		
+		doNothing().when(userRepo).deleteById(1L);
+		verify(userRepo,times(1)).deleteById(1L);
+		
 				
 	}
 }

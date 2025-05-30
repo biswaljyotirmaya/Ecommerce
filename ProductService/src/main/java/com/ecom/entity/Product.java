@@ -53,7 +53,7 @@ public class Product implements Serializable{
 	
 	
 
-	@ManyToOne(targetEntity = Brand.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Brand.class,cascade = CascadeType.ALL)
 	@JoinColumn(name="brand_id",referencedColumnName = "id")
 	private Brand brand;
 	@Override

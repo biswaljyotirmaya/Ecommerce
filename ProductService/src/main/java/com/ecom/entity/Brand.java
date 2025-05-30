@@ -29,6 +29,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Brand  implements Serializable{
 
+	
 	@Id
 	@SequenceGenerator(name = "Gen4",sequenceName = "Seq_Brand",initialValue = 1,allocationSize = 1)
 	@GeneratedValue(generator = "Gen4",strategy = GenerationType.SEQUENCE)
