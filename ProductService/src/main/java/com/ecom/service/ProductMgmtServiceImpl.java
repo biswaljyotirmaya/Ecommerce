@@ -1,5 +1,7 @@
 package com.ecom.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -48,6 +50,19 @@ public class ProductMgmtServiceImpl implements IProductMgmtService {
 		brandRepo.save(brandEntity);
 		productEntity=productRepo.save(productEntity);
 		return productEntity.getId()!=null?msg.get(ProductConstant.SAVE_SUCCESS)+productEntity.getId():msg.get(ProductConstant.SAVE_FAILURE);
+	}
+	@Override
+	public List<ProductDto> getAllProducts() {
+		List<ProductDto> dto=new ArrayList<>();
+		List<Product> list = productRepo.findAll();
+		list.forEach((li)->{
+		BeanUtils.copyProperties(li, dto);
+		
+		
+		});
+		
+	
+		return null;
 	}
 
 }
