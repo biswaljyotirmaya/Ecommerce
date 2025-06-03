@@ -56,13 +56,15 @@ public class ProductMgmtServiceImpl implements IProductMgmtService {
 		List<ProductDto> dto=new ArrayList<>();
 		List<Product> list = productRepo.findAll();
 		list.forEach((li)->{
-		BeanUtils.copyProperties(li, dto);
+		ProductDto productDto=new ProductDto();	
+		BeanUtils.copyProperties(li, productDto);
+		dto.add(productDto);
 		
 		
 		});
 		
 	
-		return null;
+		return dto;
 	}
 
 }
