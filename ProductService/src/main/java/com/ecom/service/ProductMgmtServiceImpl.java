@@ -66,5 +66,10 @@ public class ProductMgmtServiceImpl implements IProductMgmtService {
 	
 		return dto;
 	}
+	@Override
+	public ProductDto findProductById(Long id) {
+		
+		return productRepo.findById(id).orElseThrow(()->new );
+	}
 
 }

@@ -8,4 +8,5 @@ public interface IProductMgmtService {
 
 	public String saveProduct(ProductDto dto);
 	public List<ProductDto> getAllProducts();
+	public ProductDto findProductById(Long id);
 }
