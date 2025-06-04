@@ -3,6 +3,8 @@ package com.ecom.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 //github.com/biswaljyotirmaya/Ecommerce-
 import jakarta.persistence.Column;
@@ -40,7 +42,7 @@ public class Address implements Serializable{
 	private String country;
 	@ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id",referencedColumnName = "id")
-
+	@JsonIgnore
 	private User user;
 
 	@Override

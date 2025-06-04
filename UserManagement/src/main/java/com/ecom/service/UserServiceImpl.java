@@ -20,117 +20,116 @@ import com.ecom.dto.UserDto;
 import com.ecom.entity.User;
 import com.ecom.repository.IUserRepository;
 
-
 @Service
 public class UserServiceImpl implements IUserService {
 
-    @Autowired
-    private IUserRepository userRepository;
-    
-    private Map<String,String> message;
+	@Autowired
+	private IUserRepository userRepository;
 
-    @Autowired
-    public UserServiceImpl(AppConfig config) {
-    	message=config.getMessage();
-    }
-    @Override
-    @CachePut(value = "Userdto",key="#userdto.name")
-    public String registerUser(UserDto userDto) {
-        User user = new User();
-        BeanUtils.copyProperties(userDto, user);
-        User saved = userRepository.save(user);
-        return saved.getId()!=null?message.get(UserManagementConstant.SAVE_SUCCESS)+saved.getId():message.get(UserManagementConstant.SAVE_FAILURE);
-    }
+	private Map<String, String> message;
 
-    @Override
-    @Cacheable(value = "Userdto",key="#userId")
-    public UserDto getUserById(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE)+ userId));
-        UserDto dto=new UserDto();
-        BeanUtils.copyProperties(user, dto);
-        return dto;
-    }
+	@Autowired
+	public UserServiceImpl(AppConfig config) {
+		message = config.getMessage();
+	}
 
-    @Override
-    @Cacheable(value = "Userdtos")
-    public List<UserDto> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        List<UserDto> list=new ArrayList<>();
-        for(User user: users){
-        	UserDto userDto=new UserDto();
-        	BeanUtils.copyProperties(user, userDto);
-        	list.add(userDto);
-        	
-        }
-       
-       return list; 
-    }
+	@Override
+	@CachePut(value = "Userdto", key = "#userdto.name")
+	public String registerUser(UserDto userDto) {
+		User user = new User();
+		BeanUtils.copyProperties(userDto, user);
+		User saved = userRepository.save(user);
+		return saved.getId() != null ? message.get(UserManagementConstant.SAVE_SUCCESS) + saved.getId()
+				: message.get(UserManagementConstant.SAVE_FAILURE);
+	}
 
-    @Override
-    @CachePut(value = "Userdto",key = "#userId")
-    public UserDto updateUser(Long userId, UserDto userDto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE)+ userId));
-       BeanUtils.copyProperties(userDto, user);
-        User updated = userRepository.save(user);
-        return userDto;
-    }
+	@Override
+	@Cacheable(value = "Userdto", key = "#userId")
+	public UserDto getUserById(Long userId) {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE) + userId));
+		UserDto dto = new UserDto();
+		BeanUtils.copyProperties(user, dto);
+		return dto;
+	}
 
-    @Override
-    @CacheEvict(value = "Userdto",key = "#userId")
-    public String deleteUser(Long userId){
-    	Optional<User> opt = userRepository.findById(userId);
-    	userRepository.deleteById(userId);
-    	return opt.get().getId()!=null?message.get(UserManagementConstant.DELETE_SUCCESS):"User Not found for deletion";
-    }
-    
+	@Override
+	@Cacheable(value = "Userdtos")
+	public List<UserDto> getAllUsers() {
+		List<User> users = userRepository.findAll();
+		List<UserDto> list = new ArrayList<>();
+		for (User user : users) {
+			UserDto userDto = new UserDto();
+			BeanUtils.copyProperties(user, userDto);
+			list.add(userDto);
 
-    @Override
-    @Cacheable(value = "Userdtos")
-    public List<UserDto> getUsersByRole(String role) {
-        List<User> users = userRepository.findByRole(role);
-        List<UserDto> list=new ArrayList<>();
-        for(User user: users){
-        	UserDto userDto=new UserDto();
-        	BeanUtils.copyProperties(user, userDto);
-        	list.add(userDto);
-        }
-        return list;
-    }
-    
-    @Override
-    public UserDto findUserByName(String name) {
-    	User user = userRepository.findUserByName(name);
-    	UserDto dto=new UserDto();
-    	BeanUtils.copyProperties(user, dto);
-    	return dto;
-    }
-    
-    @Override
-    public String activeUser(ActiveUser activeUser) {
-    	
-    	User user=new User();
-    	user.setName(activeUser.getName());
-    	user.setPassword(activeUser.getConfirmpassword());
-    	user.setEmail(activeUser.getEmail());
-    	Example<User> example=Example.of(user);
-    	List<User> list = userRepository.findAll(example);
-    	if(list.get(0)!=null) {
-    		User user2 = list.get(0);
-    		if(user2.getName()==activeUser.getName() && user2.getPassword()==activeUser.getConfirmpassword()) {
-    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
-    		}else if(user2.getEmail()==activeUser.getEmail()&& user2.getPassword()==activeUser.getConfirmpassword()) {
-    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
-    		}
-    		else {
-    			return message.get(UserManagementConstant.LOGIN_FAILURE);
-    		}
-    	}
-    	return message.get(UserManagementConstant.LOGIN_FAILURE);
-    }
+		}
 
-   
+		return list;
+	}
 
-  
+	@Override
+	@CachePut(value = "Userdto", key = "#userId")
+	public UserDto updateUser(Long userId, UserDto userDto) {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE) + userId));
+		BeanUtils.copyProperties(userDto, user);
+		User updated = userRepository.save(user);
+		return userDto;
+	}
+
+	@Override
+	@CacheEvict(value = "Userdto", key = "#userId")
+	public String deleteUser(Long userId) {
+		Optional<User> opt = userRepository.findById(userId);
+		userRepository.deleteById(userId);
+		return opt.get().getId() != null ? message.get(UserManagementConstant.DELETE_SUCCESS)
+				: "User Not found for deletion";
+	}
+
+	@Override
+	@Cacheable(value = "Userdtos")
+	public List<UserDto> getUsersByRole(String role) {
+		List<User> users = userRepository.findByRole(role);
+		List<UserDto> list = new ArrayList<>();
+		for (User user : users) {
+			UserDto userDto = new UserDto();
+			BeanUtils.copyProperties(user, userDto);
+			list.add(userDto);
+		}
+		return list;
+	}
+
+	@Override
+	public UserDto findUserByName(String name) {
+		User user = userRepository.findUserByName(name);
+		UserDto dto = new UserDto();
+		BeanUtils.copyProperties(user, dto);
+		return dto;
+	}
+
+	@Override
+	public String activeUser(ActiveUser activeUser) {
+	    Optional<User> userByEmail = userRepository.findByEmailAndPassword(
+	        activeUser.getEmail(),
+	        activeUser.getConfirmpassword().strip()
+	    );
+
+	    if (userByEmail.isPresent()) {
+	        return message.get(UserManagementConstant.LOGIN_SUCCESS);
+	    }
+
+	    Optional<User> userByName = userRepository.findByNameAndPassword(
+	        activeUser.getName().strip(),
+	        activeUser.getConfirmpassword().strip()
+	    );
+
+	    if (userByName.isPresent()) {
+	        return message.get(UserManagementConstant.LOGIN_SUCCESS);
+	    }
+
+	    return message.get(UserManagementConstant.LOGIN_FAILURE);
+	}
+
+
 }

@@ -16,7 +16,7 @@ public class UserManagementConstant{
 	public static final String DELETE_SUCCESS="delete-success";
 	public static final String DELETE_FAILURE="delete-failure";
 	public static final String LOGIN_FAILURE="login-failure";
-	public static final String LOGIN_SUCCESS="login-sucess";
+	public static final String LOGIN_SUCCESS="login-success";
 
 	
 	
