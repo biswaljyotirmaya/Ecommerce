@@ -51,7 +51,8 @@ public class User implements Serializable{
 	@Column(updatable = true,insertable = false)
 	private LocalDateTime updationTime;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "User_id",referencedColumnName = "id")
 	private List<Address> address;
 
 	@Override
