@@ -112,7 +112,7 @@ public class UserServiceImpl implements IUserService {
     	
     	User user=new User();
     	user.setName(activeUser.getName());
-    	user.setPassword(activeUser.get());
+    	user.setPassword(activeUser.getConfirmpassword());
     	user.setEmail(activeUser.getEmail());
     	Example<User> example=Example.of(user);
     	List<User> list = userRepository.findAll(example);
