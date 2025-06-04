@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecom.dto.ActiveUser;
 import com.ecom.dto.UserDto;
 import com.ecom.service.IUserService;
 
@@ -81,6 +83,19 @@ public class UserOperationsController {
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Problem ", HttpStatus.INTERNAL_SERVER_ERROR);
 
+		}
+	}
+	@GetMapping(value = {"/login/{email}/{password}","/login/{username}/{password}"})
+	public ResponseEntity<String> loginUser(@PathVariable(required = false) String email ,@PathVariable(required = false) String username,@PathVariable String password){
+		try {
+			ActiveUser user=new ActiveUser();
+			user.setConfirmpassword(password);
+			user.setName(username);
+			user.setEmail(email);
+			String msg = userService.activeUser(user);
+			return new ResponseEntity<String>(msg,HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<String>("User credantials not correct",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
