@@ -3,6 +3,7 @@ package com.ecom.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +77,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     @CacheEvict(value = "Userdto",key = "#userId")
     public String deleteUser(Long userId){
+    	Optional<User> opt = userRepository.findById(userId);
     	userRepository.deleteById(userId);
-    	return userId!=null?message.get(UserManagementConstant.DELETE_SUCCESS):"User Not found for deletion";
+    	return opt.get().getId()!=null?message.get(UserManagementConstant.DELETE_SUCCESS):"User Not found for deletion";
     }
     
 
@@ -86,7 +88,7 @@ public class UserServiceImpl implements IUserService {
     public List<UserDto> getUsersByRole(String role) {
         List<User> users = userRepository.findByRole(role);
         List<UserDto> list=new ArrayList<>();
-        for(User user: users) {
+        for(User user: users){
         	UserDto userDto=new UserDto();
         	BeanUtils.copyProperties(user, userDto);
         	list.add(userDto);
