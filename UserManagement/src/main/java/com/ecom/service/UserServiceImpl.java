@@ -95,6 +95,14 @@ public class UserServiceImpl implements IUserService {
         }
         return list;
     }
+    
+    @Override
+    public UserDto findUserByName(String name) {
+    	User user = userRepository.findUserByName(name);
+    	UserDto dto=new UserDto();
+    	BeanUtils.copyProperties(user, dto);
+    	return dto;
+    }
 
    
 

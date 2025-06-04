@@ -5,15 +5,17 @@ import java.util.List;
 
 public interface IUserService {
 
-    public String registerUser(UserDto userDto);
+	public String registerUser(UserDto userDto);
 
-    UserDto getUserById(Long userId);
+	public UserDto getUserById(Long userId);
 
-    List<UserDto> getAllUsers();
+	public List<UserDto> getAllUsers();
 
-    UserDto updateUser(Long userId, UserDto userDto);
+	public UserDto updateUser(Long userId, UserDto userDto);
 
-    String deleteUser(Long userId);
+	public String deleteUser(Long userId);
 
-    List<UserDto> getUsersByRole(String role);
+	public List<UserDto> getUsersByRole(String role);
+
+	public UserDto findUserByName(String name);
 }
