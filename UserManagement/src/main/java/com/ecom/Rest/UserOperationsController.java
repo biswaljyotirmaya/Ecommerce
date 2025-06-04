@@ -89,9 +89,10 @@ public class UserOperationsController {
 	public ResponseEntity<String> loginUser(@PathVariable(required = false) String email ,@PathVariable(required = false) String username,@PathVariable String password){
 		try {
 			ActiveUser user=new ActiveUser();
-			user.setConfirmpassword(password);
+			
 			user.setName(username);
 			user.setEmail(email);
+			user.setConfirmpassword(password);
 			String msg = userService.activeUser(user);
 			return new ResponseEntity<String>(msg,HttpStatus.OK);
 		}catch(Exception e) {

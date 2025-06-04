@@ -112,11 +112,11 @@ public class UserServiceImpl implements IUserService {
     	
     	User user=new User();
     	user.setName(activeUser.getName());
-    	user.setPassword(activeUser.getConfirmpassword());
+    	user.setPassword(activeUser.get());
     	user.setEmail(activeUser.getEmail());
     	Example<User> example=Example.of(user);
     	List<User> list = userRepository.findAll(example);
-    	if(list.get(0)!=null) {
+    	if(list.get(0)!=null){
     		User user2 = list.get(0);
     		if(user2.getName()==activeUser.getName() && user2.getPassword()==activeUser.getConfirmpassword()) {
     			return message.get(UserManagementConstant.LOGIN_SUCCESS);
