@@ -54,8 +54,10 @@ public class UserServiceImpl implements IUserService {
         List<User> users = userRepository.findAll();
         List<UserDto> list=new ArrayList<>();
         for(User user: users){
-        	BeanUtils.copyProperties(users, list);
-        	return list;
+        	UserDto userDto=new UserDto();
+        	BeanUtils.copyProperties(user, userDto);
+        	list.add(userDto);
+        	
         }
        
        return list; 
@@ -85,8 +87,9 @@ public class UserServiceImpl implements IUserService {
         List<User> users = userRepository.findByRole(role);
         List<UserDto> list=new ArrayList<>();
         for(User user: users) {
-        	BeanUtils.copyProperties(users, list);
-        	return list;
+        	UserDto userDto=new UserDto();
+        	BeanUtils.copyProperties(user, userDto);
+        	list.add(userDto);
         }
         return list;
     }
