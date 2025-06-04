@@ -10,13 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.ecom.config.AppConfig;
 import com.ecom.cons.UserManagementConstant;
+import com.ecom.dto.ActiveUser;
 import com.ecom.dto.UserDto;
 import com.ecom.entity.User;
 import com.ecom.repository.IUserRepository;
+
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -102,6 +105,29 @@ public class UserServiceImpl implements IUserService {
     	UserDto dto=new UserDto();
     	BeanUtils.copyProperties(user, dto);
     	return dto;
+    }
+    
+    @Override
+    public String activeUser(ActiveUser activeUser) {
+    	
+    	User user=new User();
+    	user.setName(activeUser.getName());
+    	user.setPassword(activeUser.getConfirmpassword());
+    	user.setEmail(activeUser.getEmail());
+    	Example<User> example=Example.of(user);
+    	List<User> list = userRepository.findAll(example);
+    	if(list.get(0)!=null) {
+    		User user2 = list.get(0);
+    		if(user2.getName()==activeUser.getName() && user2.getPassword()==activeUser.getConfirmpassword()) {
+    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
+    		}else if(user2.getEmail()==activeUser.getEmail()&& user2.getPassword()==activeUser.getConfirmpassword()) {
+    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
+    		}
+    		else {
+    			return message.get(UserManagementConstant.LOGIN_FAILURE);
+    		}
+    	}
+    	return message.get(UserManagementConstant.LOGIN_FAILURE);
     }
 
    

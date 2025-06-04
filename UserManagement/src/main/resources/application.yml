@@ -31,6 +31,9 @@ user:
             update-failure: User not found for deletion
             delete-success: User deleted successfully
             delete-failure: User not found for deletion
+            login-success: User login successfull
+            login-failure: User failed login 
+            
 
 eureka:
   client:
