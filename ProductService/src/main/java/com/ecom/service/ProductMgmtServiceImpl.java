@@ -3,9 +3,11 @@ package com.ecom.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ecom.config.AppConfig;
@@ -64,6 +66,18 @@ public class ProductMgmtServiceImpl implements IProductMgmtService {
 		});
 		
 	
+		return dto;
+	}
+	@Override
+	
+	public ProductDto findProductById(Long id) {
+		ProductDto dto =new ProductDto();
+			Optional<Product> opt = productRepo.findById(id);
+			if(opt.isPresent()) {
+				Product product = opt.get();
+				BeanUtils.copyProperties(product, dto);
+				
+			}
 		return dto;
 	}
 	
