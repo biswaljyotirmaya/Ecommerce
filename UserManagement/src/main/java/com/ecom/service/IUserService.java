@@ -12,12 +12,13 @@ public interface IUserService {
 
 	public List<UserDto> getAllUsers();
 
-	public UserDto updateUser(Long userId, UserDto userDto);
+	public UserDto updateUser( UserDto userDto);
 
 	public String deleteUser(Long userId);
 
 	public List<UserDto> getUsersByRole(String role);
 
 	public UserDto findUserByName(String name);
-	public String  activeUser(ActiveUser activeUser);
+	public String  activeUserByEmailOrName(ActiveUser activeUser);
+	
 }

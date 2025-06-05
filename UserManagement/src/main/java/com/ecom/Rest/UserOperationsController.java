@@ -53,16 +53,15 @@ public class UserOperationsController {
 		}
 	}
 
-	@PutMapping("/modify/{id}")
-	public ResponseEntity<String> modifyUser(@PathVariable("id") Long id, UserDto uDto) {
+	@PutMapping("/modify")
+	public ResponseEntity<String> modifyUser( @RequestBody UserDto uDto) {
 
 		try {
-			userService.updateUser(id, uDto);
+			userService.updateUser( uDto);
 			return new ResponseEntity<String>("User Detalils Updated", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Problem Occur for Updation", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
 	@DeleteMapping("/delete/{id}")
@@ -86,18 +85,26 @@ public class UserOperationsController {
 
 		}
 	}
-	@GetMapping(value = {"/login/{email}/{password}","/login/{name}/{password}"})
-	public ResponseEntity<String> loginUser(@PathVariable(required = false) String email ,@PathVariable(required = false) String username,@PathVariable String password){
+	@GetMapping(value = {"/login/{email}/{password}","login1/{name}/{password}"})
+	public ResponseEntity<String> loginByEmail(@PathVariable(required = false) String email, @PathVariable(required =false ) String name,@PathVariable String password){
 			ActiveUser user=new ActiveUser();
-		user.setConfirmpassword(password);
-			System.out.println(username);
-			user.setName(username);
-			System.out.println(user.getName());
+			user.setNewPassWord(password);
 			user.setEmail(email);
-			user.setConfirmpassword(password);
-			String msg = userService.activeUser(user);
+			user.setName(name);
+			String msg = userService.activeUserByEmailOrName(user);
 			return new ResponseEntity<String>(msg,HttpStatus.OK);
 		
 	}
+	/*
+	 * @GetMapping("/login/{name}/{password}") public ResponseEntity<String>
+	 * loginByName(@PathVariable String name ,@PathVariable String password){
+	 * ActiveUser user=new ActiveUser(); user.setNewPassWord(password);
+	 * user.setName(name); String msg = userService.activeUserByName(user); return
+	 * new ResponseEntity<String>(msg,HttpStatus.OK);
+	 * 
+	 * }
+	 */
+	
+	
 
 }

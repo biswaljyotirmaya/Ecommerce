@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="Address")
+@Table(name="Address_Table")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter

@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///ecommerce
+    url: jdbc:mysql:///ntspbms618db
     username: root
-    password: jyoti
+    password: safari
 
   jpa:
     hibernate:

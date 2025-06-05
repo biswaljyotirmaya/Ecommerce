@@ -75,26 +75,37 @@ public class UserServiceImpl implements IUserService {
     }
     
     @Override
-    public String activeUser(ActiveUser activeUser) {
+    public String activeUserByEmailOrName(ActiveUser activeUser) {
     	
     	User user=new User();
-    	user.setName(activeUser.getName());
-    	user.setPassword(activeUser.getConfirmpassword());
     	user.setEmail(activeUser.getEmail());
+    	System.out.println(activeUser.getEmail());
+    	user.setPassword(activeUser.getNewPassWord());
+    	user.setName(activeUser.getName());
+    	System.out.println(activeUser.getName());
+    	System.out.println(activeUser.getNewPassWord());
     	Example<User> example=Example.of(user);
     	List<User> list = userRepository.findAll(example);
-    	if(list.get(0)!=null){
-    		User user2 = list.get(0);
-    		if(user2.getName().equals(activeUser.getName())&& user2.getPassword().equals(activeUser.getConfirmpassword())) {
-    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
-    		}else if(user2.getEmail().equals(activeUser.getEmail())&& user2.getPassword().equals(activeUser.getConfirmpassword())) {
-    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
-    		}
-    		else {
-    			return message.get(UserManagementConstant.LOGIN_FAILURE);
-    		}
+    	if(list==null || list.size()<=0){
+    		return message.get(UserManagementConstant.LOGIN_FAILURE);
     	}
+    	
+    		User user2 = list.get(0);
+    		if(user2.getEmail().equals(activeUser.getEmail())&& user2.getPassword().equals(activeUser.getNewPassWord())) {
+    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
+    		
+    		
+    	
+    		}else if(user2.getName().equals(activeUser.getName())&& user2.getPassword().equals(activeUser.getNewPassWord())) {
+    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
+    	}
+        	
+
+    		
+    
+    
     	return message.get(UserManagementConstant.LOGIN_FAILURE);
+
     }
 
 		
@@ -103,10 +114,10 @@ public class UserServiceImpl implements IUserService {
 	
 
 	@Override
-	@CachePut(value = "Userdto", key = "#userId")
-	public UserDto updateUser(Long userId, UserDto userDto) {
-		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE) + userId));
+	@CachePut(value = "Userdto", key = "#userDto.getId()")
+	public UserDto updateUser(UserDto userDto) {
+		User user = userRepository.findById(userDto.getId())
+				.orElseThrow(() -> new RuntimeException(message.get(UserManagementConstant.SAVE_FAILURE) +userDto.getId()));
 		BeanUtils.copyProperties(userDto, user);
 		User updated = userRepository.save(user);
 		return userDto;
@@ -136,22 +147,10 @@ public class UserServiceImpl implements IUserService {
 
 	
 
-	/*
-	 * @Override public String activeUser(ActiveUser activeUser) { Optional<User>
-	 * userByEmail = userRepository.findByEmailAndPassword( activeUser.getEmail(),
-	 * activeUser.getConfirmpassword().strip() );
-	 * 
-	 * if (userByEmail.isPresent()) { return
-	 * message.get(UserManagementConstant.LOGIN_SUCCESS); }
-	 * 
-	 * Optional<User> userByName = userRepository.findByNameAndPassword(
-	 * activeUser.getName().strip(), activeUser.getConfirmpassword().strip() );
-	 * 
-	 * if (userByName.isPresent()) { return
-	 * message.get(UserManagementConstant.LOGIN_SUCCESS); }
-	 * 
-	 * return message.get(UserManagementConstant.LOGIN_FAILURE); }
-	 * 
-	 */
+	
+	
+	 
+
+	  
 
 }

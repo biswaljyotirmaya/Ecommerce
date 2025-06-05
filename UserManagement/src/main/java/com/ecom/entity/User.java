@@ -29,7 +29,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-@Table(name = "User")
+@Table(name = "User_Table")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable{
