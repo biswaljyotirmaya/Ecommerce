@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +21,7 @@ import com.ecom.service.IUserService;
 
 @RestController
 @RequestMapping("/UserManagemnt-api")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserOperationsController {
 
 	@Autowired
@@ -85,19 +86,18 @@ public class UserOperationsController {
 
 		}
 	}
-	@GetMapping(value = {"/login/{email}/{password}","/login/{username}/{password}"})
+	@GetMapping(value = {"/login/{email}/{password}","/login/{name}/{password}"})
 	public ResponseEntity<String> loginUser(@PathVariable(required = false) String email ,@PathVariable(required = false) String username,@PathVariable String password){
-		try {
 			ActiveUser user=new ActiveUser();
-			
+		user.setConfirmpassword(password);
+			System.out.println(username);
 			user.setName(username);
+			System.out.println(user.getName());
 			user.setEmail(email);
 			user.setConfirmpassword(password);
 			String msg = userService.activeUser(user);
 			return new ResponseEntity<String>(msg,HttpStatus.OK);
-		}catch(Exception e) {
-			return new ResponseEntity<String>("User credantials not correct",HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		
 	}
 
 }

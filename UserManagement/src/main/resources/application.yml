@@ -1,42 +1,45 @@
-# Conversion to YAML from Properties formar report
-# Warnings:
-# - The yaml file had comments which are lost in the refactoring!
 spring:
   application:
     name: UserManagement
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///ntspbms618db
+    url: jdbc:mysql:///ecommerce
     username: root
-    password: safari
+    password: jyoti
+
   jpa:
     hibernate:
-      dialect: org.hibernate.dialect.MySQL8Dialect 
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
-  cache-type: Redis
+
+  cache:
+    type: redis
+
   data:
     redis:
-       host: localhost
-       port: 6369
-server.port: 4041         
-    
-   
+      host: localhost
+      port: 6379 
+
+server:
+  port: 4041
+
 user:
-   module:
-         message:
-            save-success: User is Registered with id
-            save-failure: User is not registered
-            update-success: User is updated successfully
-            update-failure: User not found for deletion
-            delete-success: User deleted successfully
-            delete-failure: User not found for deletion
-            login-success: User login successfull
-            login-failure: User failed login 
-            
+  module:
+    message:
+      save-success: User is Registered with id
+      save-failure: User is not registered
+      update-success: User is updated successfully
+      update-failure: User not found for deletion
+      delete-success: User deleted successfully
+      delete-failure: User not found for deletion
+      login-success: User login successful
+      login-failure: User failed login 
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-
