@@ -19,6 +19,6 @@ public interface IUserService {
 	public List<UserDto> getUsersByRole(String role);
 
 	public UserDto findUserByName(String name);
-	public String  activeUserByEmailOrName(ActiveUser activeUser);
+	public UserDto  activeUserByEmailOrName(ActiveUser activeUser);
 	
 }

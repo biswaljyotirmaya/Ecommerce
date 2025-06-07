@@ -86,13 +86,13 @@ public class UserOperationsController {
 		}
 	}
 	@GetMapping(value = {"/login/{email}/{password}","login1/{name}/{password}"})
-	public ResponseEntity<String> loginByEmail(@PathVariable(required = false) String email, @PathVariable(required =false ) String name,@PathVariable String password){
+	public ResponseEntity<UserDto> loginByEmail(@PathVariable(required = false) String email, @PathVariable(required =false ) String name,@PathVariable String password){
 			ActiveUser user=new ActiveUser();
 			user.setConfirmpassword(password);
 			user.setEmail(email);
 			user.setName(name);
-			String msg = userService.activeUserByEmailOrName(user);
-			return new ResponseEntity<String>(msg,HttpStatus.OK);
+			UserDto dto = userService.activeUserByEmailOrName(user);
+			return new ResponseEntity<UserDto>(dto,HttpStatus.OK);
 		
 	}
 	/*

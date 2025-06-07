@@ -75,9 +75,10 @@ public class UserServiceImpl implements IUserService {
     }
     
     @Override
-    public String activeUserByEmailOrName(ActiveUser activeUser) {
+    public UserDto activeUserByEmailOrName(ActiveUser activeUser) {
     	
     	User user=new User();
+    	UserDto dto=new UserDto();
     	user.setEmail(activeUser.getEmail());
     	user.setName(activeUser.getName());
     	user.setPassword(activeUser.getConfirmpassword());
@@ -85,21 +86,23 @@ public class UserServiceImpl implements IUserService {
     	Example<User> example=Example.of(user);
     	List<User> list = userRepository.findAll(example);
     	if(list==null||list.size()<=0){
-        	return message.get(UserManagementConstant.LOGIN_FAILURE);
+        	return dto;
 
     	}
     		User user2 = list.get(0);
     		if(user2.getEmail().equals(activeUser.getEmail())&& user2.getPassword().equals(activeUser.getConfirmpassword())) {
-    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
+    			BeanUtils.copyProperties(user2,dto);
+    			return dto;
     		
     		
     	}else if (user2.getName().equals(activeUser.getName())&& user2.getPassword().equals(activeUser.getConfirmpassword())) {
-			return message.get(UserManagementConstant.LOGIN_SUCCESS);
+    		BeanUtils.copyProperties(user2,dto);
+			return dto;
     		
     		
     	}
     
-    	return message.get(UserManagementConstant.LOGIN_FAILURE);
+    	return dto;
     }
 
 		
