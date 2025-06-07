@@ -79,33 +79,22 @@ public class UserServiceImpl implements IUserService {
     	
     	User user=new User();
     	user.setEmail(activeUser.getEmail());
-    	System.out.println(activeUser.getEmail());
-    	user.setPassword(activeUser.getNewPassWord());
-    	user.setName(activeUser.getName());
-    	System.out.println(activeUser.getName());
-    	System.out.println(activeUser.getNewPassWord());
+    	user.setPassword(activeUser.getConfirmpassword());
+    	System.out.println(activeUser);
     	Example<User> example=Example.of(user);
     	List<User> list = userRepository.findAll(example);
-    	if(list==null || list.size()<=0){
-    		return message.get(UserManagementConstant.LOGIN_FAILURE);
-    	}
-    	
-    		User user2 = list.get(0);
-    		if(user2.getEmail().equals(activeUser.getEmail())&& user2.getPassword().equals(activeUser.getNewPassWord())) {
-    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
-    		
-    		
-    	
-    		}else if(user2.getName().equals(activeUser.getName())&& user2.getPassword().equals(activeUser.getNewPassWord())) {
-    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
-    	}
-        	
+    	if(list.get(0)!=null){
+        	return message.get(UserManagementConstant.LOGIN_FAILURE);
 
+    	}
+    		User user2 = list.get(0);
+    		if(user2.getName().equals(activeUser.getName())&& user2.getPassword().equals(activeUser.getConfirmpassword())) {
+    			return message.get(UserManagementConstant.LOGIN_SUCCESS);
     		
-    
+    		
+    	}
     
     	return message.get(UserManagementConstant.LOGIN_FAILURE);
-
     }
 
 		
@@ -148,9 +137,4 @@ public class UserServiceImpl implements IUserService {
 	
 
 	
-	
-	 
-
-	  
-
 }
