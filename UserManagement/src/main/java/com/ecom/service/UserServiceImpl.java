@@ -20,7 +20,10 @@ import com.ecom.dto.UserDto;
 import com.ecom.entity.User;
 import com.ecom.repository.IUserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserServiceImpl implements IUserService {
 
 	@Autowired
@@ -30,15 +33,23 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	public UserServiceImpl(AppConfig config) {
+		log.warn("inside config");
 		message = config.getMessage();
+		log.warn("initilazition of message");
 	}
 
 	@Override
 	@CachePut(value = "Userdto", key = "#userdto.name")
 	public String registerUser(UserDto userDto) {
+		log.debug("before object creation");
 		User user = new User();
+		log.debug("after user object creation");
+
 		BeanUtils.copyProperties(userDto, user);
+		
+
 		User saved = userRepository.save(user);
+		log.info("after save ,ethod call");
 		return saved.getId() != null ? message.get(UserManagementConstant.SAVE_SUCCESS) + saved.getId()
 				: message.get(UserManagementConstant.SAVE_FAILURE);
 	}
