@@ -88,7 +88,7 @@ public class UserOperationsController {
 	@GetMapping(value = {"/login/{email}/{password}","login1/{name}/{password}"})
 	public ResponseEntity<String> loginByEmail(@PathVariable(required = false) String email, @PathVariable(required =false ) String name,@PathVariable String password){
 			ActiveUser user=new ActiveUser();
-			user.setNewPassWord(password);
+			user.setConfirmpassword(password);
 			user.setEmail(email);
 			user.setName(name);
 			String msg = userService.activeUserByEmailOrName(user);
