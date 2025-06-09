@@ -20,91 +20,85 @@ import com.ecom.dto.UserDto;
 import com.ecom.service.IUserService;
 
 @RestController
-@RequestMapping("/UserManagemnt-api")
+@RequestMapping("/UserManagement-api")
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserOperationsController {
 
-	@Autowired
-	private IUserService userService;
+    @Autowired
+    private IUserService userService;
 
-	@PostMapping("/register")
-	public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
-		try {
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
+        try {
+            String msg = userService.registerUser(userDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(msg);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Internal error while registering a new user.");
+        }
+    }
 
-			String msg = userService.registerUser(userDto);
+    @GetMapping("/allUsers")
+    public ResponseEntity<?> fetchAllUsers() {
+        try {
+            List<UserDto> list = userService.getAllUsers();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error fetching user details.");
+        }
+    }
 
-			return new ResponseEntity<String>(msg, HttpStatus.CREATED);
+    @PutMapping("/modify")
+    public ResponseEntity<?> modifyUser(@RequestBody UserDto uDto) {
+        try {
+            userService.updateUser(uDto);
+            return ResponseEntity.ok("User details updated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error updating user.");
+        }
+    }
 
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Internal Problem Occurs", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUserById(@PathVariable long id) {
+        try {
+            String msg = userService.deleteUser(id);
+            return ResponseEntity.ok(msg);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting user with ID: " + id);
+        }
+    }
 
-	}
+    @GetMapping("/show-ByRole/{role}")
+    public ResponseEntity<?> showUserByRole(@PathVariable String role) {
+        try {
+            List<UserDto> list = userService.getUsersByRole(role);
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error fetching users by role.");
+        }
+    }
 
-	@GetMapping("/allUser")
-	public ResponseEntity<?> fetchAllUser(){
+    @GetMapping(value = {"/login/{email}/{password}", "/login1/{name}/{password}"})
+    public ResponseEntity<?> loginByEmailOrName(
+            @PathVariable(required = false) String email,
+            @PathVariable(required = false) String name,
+            @PathVariable String password) {
 
-		try {
-			List<UserDto> list = userService.getAllUsers();
-			return new ResponseEntity<List<UserDto>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Got Internal Error::: Not Getting to fetch Users Details",
-					HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+        try {
+            ActiveUser user = new ActiveUser();
+            user.setEmail(email);
+            user.setName(name);
+            user.setConfirmpassword(password);
 
-	@PutMapping("/modify")
-	public ResponseEntity<String> modifyUser( @RequestBody UserDto uDto) {
-
-		try {
-			userService.updateUser( uDto);
-			return new ResponseEntity<String>("User Detalils Updated", HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Problem Occur for Updation", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteUserById(@PathVariable("id") long id) {
-		try {
-			String resMsg = userService.deleteUser(id);
-			return new ResponseEntity<String>(id + "User Deleted Sucessfully", HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Problem Occur for Deletion", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
-
-	@GetMapping("/show-ByRole/{role}")
-	public ResponseEntity<?> showUserByRole(@PathVariable("name") String role) {
-		try {
-			List<UserDto> list = userService.getUsersByRole(role);
-			return new ResponseEntity<List<UserDto>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Internal Problem ", HttpStatus.INTERNAL_SERVER_ERROR);
-
-		}
-	}
-	@GetMapping(value = {"/login/{email}/{password}","login1/{name}/{password}"})
-	public ResponseEntity<UserDto> loginByEmail(@PathVariable(required = false) String email, @PathVariable(required =false ) String name,@PathVariable String password){
-			ActiveUser user=new ActiveUser();
-			user.setConfirmpassword(password);
-			user.setEmail(email);
-			user.setName(name);
-			UserDto dto = userService.activeUserByEmailOrName(user);
-			return new ResponseEntity<UserDto>(dto,HttpStatus.OK);
-		
-	}
-	/*
-	 * @GetMapping("/login/{name}/{password}") public ResponseEntity<String>
-	 * loginByName(@PathVariable String name ,@PathVariable String password){
-	 * ActiveUser user=new ActiveUser(); user.setNewPassWord(password);
-	 * user.setName(name); String msg = userService.activeUserByName(user); return
-	 * new ResponseEntity<String>(msg,HttpStatus.OK);
-	 * 
-	 * }
-	 */
-	
-	
-
+            UserDto dto = userService.activeUserByEmailOrName(user);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Login failed. Please check credentials.");
+        }
+    }
 }

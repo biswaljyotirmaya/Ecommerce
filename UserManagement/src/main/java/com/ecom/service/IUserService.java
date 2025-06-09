@@ -1,8 +1,9 @@
 package com.ecom.service;
 
+import java.util.List;
+
 import com.ecom.dto.ActiveUser;
 import com.ecom.dto.UserDto;
-import java.util.List;
 
 public interface IUserService {
 
@@ -12,13 +13,14 @@ public interface IUserService {
 
 	public List<UserDto> getAllUsers();
 
-	public UserDto updateUser( UserDto userDto);
+	public UserDto updateUser(UserDto userDto);
 
 	public String deleteUser(Long userId);
 
 	public List<UserDto> getUsersByRole(String role);
 
 	public UserDto findUserByName(String name);
-	public UserDto  activeUserByEmailOrName(ActiveUser activeUser);
-	
+
+	public UserDto activeUserByEmailOrName(ActiveUser activeUser);
+
 }

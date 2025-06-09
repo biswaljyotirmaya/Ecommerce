@@ -21,7 +21,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,11 +31,11 @@ import lombok.Setter;
 @Table(name = "User_Table")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable{
+public class User implements Serializable {
 
 	@Id
-	@SequenceGenerator(name = "Gen1",sequenceName ="Seq_User",initialValue = 1,allocationSize = 1)
-	@GeneratedValue(generator = "Gen1",strategy =GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "Gen1", sequenceName = "Seq_User", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(generator = "Gen1", strategy = GenerationType.SEQUENCE)
 	private Long id;
 	@Column(length = 30)
 	private String name;
@@ -47,14 +46,14 @@ public class User implements Serializable{
 	@Column(length = 20)
 	private String role;
 	@CreationTimestamp
-	@Column(insertable = true,updatable = false)
+	@Column(insertable = true, updatable = false)
 	private LocalDateTime creationTime;
 	@UpdateTimestamp
-	@Column(updatable = true,insertable = false)
+	@Column(updatable = true, insertable = false)
 	private LocalDateTime updationTime;
-	
+
 	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "User_id",referencedColumnName = "id")
+	@JoinColumn(name = "User_id", referencedColumnName = "id")
 	@JsonIgnore
 	private List<Address> address;
 
@@ -63,6 +62,5 @@ public class User implements Serializable{
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
 				+ ", creationTime=" + creationTime + ", updationTime=" + updationTime + "]";
 	}
-	
 
 }

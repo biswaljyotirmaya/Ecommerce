@@ -1,6 +1,5 @@
 package com.ecom.entity;
 
-
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,16 +22,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="Address_Table")
+@Table(name = "Address_Table")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class Address implements Serializable{
+public class Address implements Serializable {
 
 	@Id
-	@SequenceGenerator(name = "Gen2",sequenceName = "Seq_Adddress",initialValue = 1,allocationSize = 1)
-	@GeneratedValue(generator = "Gen2",strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "Gen2", sequenceName = "Seq_Adddress", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(generator = "Gen2", strategy = GenerationType.SEQUENCE)
 	private Long id;
 	@Column(length = 20)
 	private String city;
@@ -40,17 +39,14 @@ public class Address implements Serializable{
 	private String state;
 	@Column(length = 30)
 	private String country;
-	@ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id",referencedColumnName = "id")
+	@ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@JsonIgnore
 	private User user;
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Address [id=" + id + ", city=" + city + ", state=" + state + ", country=" + country + "]";
 	}
-	
 
-
-	
 }

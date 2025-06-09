@@ -4,9 +4,11 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///ntspbms618db
+#    url: jdbc:mysql:///ntspbms618db
+    url: jdbc:mysql:///ecommerce
     username: root
-    password: safari
+#    password: safari
+    password: jyoti
 
   jpa:
     hibernate:
@@ -43,3 +45,5 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+      register-with-eureka: true
+      fetch-registry: false
